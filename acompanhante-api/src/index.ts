@@ -36,60 +36,9 @@ app.get('/', (req: Request, res: Response) => {
 	res.json(response);
 });
 
-// Hello endpoint with optional name parameter
-app.get('/hello/:name?', (req: Request, res: Response) => {
-	const name = req.params.name || 'World';
-	const response: ApiResponse = {
-		message: `Olá, ${name}!`,
-		timestamp: new Date().toISOString(),
-	};
-	res.json(response);
-});
 
-// GET endpoint to retrieve all users (demo)
-app.get('/api/users', (req: Request, res: Response) => {
-	const users: User[] = [
-		{ id: 1, name: 'João Silva', email: 'joao@example.com' },
-		{ id: 2, name: 'Maria Santos', email: 'maria@example.com' },
-	];
 
-	const response: ApiResponse<User[]> = {
-		message: 'Usuários recuperados com sucesso',
-		data: users,
-		timestamp: new Date().toISOString(),
-	};
 
-	res.json(response);
-});
-
-// POST endpoint to create a new user (demo)
-app.post('/api/users', (req: Request, res: Response) => {
-	const { name, email }: CreateUserRequest = req.body;
-
-	if (!name || !email) {
-		const errorResponse: ErrorResponse = {
-			error: 'Dados inválidos',
-			message: 'Nome e email são obrigatórios',
-			timestamp: new Date().toISOString(),
-		};
-		return res.status(400).json(errorResponse);
-	}
-
-	const newUser: User = {
-		id: Date.now(),
-		name,
-		email,
-		createdAt: new Date().toISOString(),
-	};
-
-	const response: ApiResponse<User> = {
-		message: 'Usuário criado com sucesso',
-		data: newUser,
-		timestamp: new Date().toISOString(),
-	};
-
-	res.status(201).json(response);
-});
 
 // POST endpoint to receive location data
 app.post('/api/location', (req: Request, res: Response) => {
